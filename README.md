@@ -1,103 +1,67 @@
 # Entice Chat app
 
-[![License](https://img.shields.io/github/license/ashish7zeph/Entice.svg?style=for-the-badge)](https://github.com/ashish7zeph/Entice/blob/master/LICENSE)
-[![GitHub contributors](https://img.shields.io/github/contributors/ashish7zeph/Entice.svg?style=for-the-badge)](https://github.com/ashish7zeph/Entice/graphs/contributors)
-[![GitHub forks](https://img.shields.io/github/forks/ashish7zeph/Entice.svg?style=for-the-badge)](https://github.com/ashish7zeph/Entice/network/members)
-[![GitHub stars](https://img.shields.io/github/stars/ashish7zeph/Entice.svg?colorB=green&style=for-the-badge)](https://github.com/ashish7zeph/Entice/stargazers)
+**Title: Creating encrypted chat between two clients**
 
-[![Made with python](https://forthebadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+## 1. Introduction
+In the modern digital era, secure communication is a critical requirement. This project implements an encrypted chat system that ensures confidentiality, integrity, and authenticity between two clients. The chat uses a hybrid encryption mechanism combining RSA for key exchange and AES for message encryption.
 
-## Overview
+## 2. Objectives
+- To develop a real-time chat application with end-to-end encryption.
+- To implement RSA for secure key exchange.
+- To use AES for encrypting and decrypting chat messages.
+- To ensure seamless and secure communication between two clients over a server.
 
-An Encrypted Chat Application developed in Python
+## 3. System Architecture
+The system comprises three main components:
+1. **Server (Server.py)**: Handles client connections and message forwarding.
+2. **Client 1 (client_1.py)**: First user participating in encrypted chat.
+3. **Client 2 (client_2.py)**: Second user participating in encrypted chat.
+4. **Encryption Module (RSA.py)**: Manages key generation, encryption, and decryption.
 
-This is an encrypted chat application to make 2 clients offline chatting possible via LAN or Wifi hotspot, thought a connection with a system that is made as a server. 
+## 4. Encryption Mechanism
+### **4.1 RSA (Rivest-Shamir-Adleman) for Key Exchange**
+- Each client generates a pair of RSA keys (public and private).
+- The public key is shared with the other client through the server.
+- The private key remains confidential and is used for decrypting exchanged keys.
 
-The server is unable to decypher the chat texts among the 2 clients. It is developed by the use of Socket Programming in Python and the  encryption is done using RSA Encryption ALgorithm.
+### **4.2 AES (Advanced Encryption Standard) for Message Encryption**
+- A symmetric AES key is generated and encrypted using RSA.
+- Messages are encrypted using AES before transmission.
+- The recipient decrypts the AES-encrypted message using the shared AES key.
 
-## Features
+## 5. Implementation
+### **5.1 Server Implementation**
+- The server runs a multi-client socket-based application.
+- It listens for connections, receives messages, and forwards them securely.
 
-* Chatting
-* Encryption
-* Secure
+### **5.2 Client Implementation**
+- Each client connects to the server and exchanges RSA keys.
+- Messages are encrypted using AES before transmission.
+- Upon receiving a message, the client decrypts it using AES.
 
-## Requirments
-```
-Python 3 - version 3.6.5
-```
-### modules :
+## 6. Code Files
+- **Server.py**: Handles client connections and message forwarding.
+- **client_1.py & client_2.py**: Implement encrypted messaging logic.
+- **RSA.py**: Manages RSA key generation, encryption, and decryption.
 
-   * socket - Low-level networking interface
-   * threading - Higher-level threading interface
-   * tkinter - Python interface to the Tk GUI toolkit
-   * random - Generate pseudo-random numbers
-   * sys - System-specific parameters and functions
-   * time - Time access and conversions
+## 7. Results
+- Successfully established a secure chat channel between two clients.
+- Messages exchanged were encrypted, preventing unauthorized access.
+- The hybrid encryption approach ensured high security without compromising performance.
 
-## Instructions
+## 8. Future Enhancements
+- Implement a **Graphical User Interface (GUI)** for improved user experience.
+- Add support for **multiple users** with individual encryption keys.
+- Integrate **end-to-end authentication** using digital signatures.
+- Deploy the chat application over **a secure cloud environment**.
 
-1. Clone or download the repo: `https://github.com/ashish7zeph/Entice`
-2. Navigate to the folder `Entice`
-3. Run the server script `Server.py` on a system to be made a server that is in connection with the 2 clients
-4. Run the first client script `client_1.py` on another system
-5. Put the IP of the server that is shown on server console in `client_1.py`
-6. Put the Port of the server, that is fixed in the server script to 42000
-7. Finally enter your name, e.g.-`Zephyr`
-8. Then run the second client script `client_2.py` on different system
-5. Put the IP and port of the server in `client_2.py` and enter your name e.g.-`klaus`
+## 9. Conclusion
+This project successfully demonstrates a secure chat application using hybrid encryption. By integrating RSA for key exchange and AES for secure message transmission, the system ensures encrypted communication between two users.
 
-Finally, connection is established now!!
+---
+**Project Developed By: [Soumyadip Saha]**
 
-You can chat with your friend with with one client as you and another client as your friend.
-And without server interviewing your chats!!
-Server script will show the encrypted messages shared among the 2 clients.
 
-# Screenshots
-
-## Server Sript :
-![](https://github.com/ashish7zeph/Entice/blob/master/screenshot/img1.png)
-## Client_1 Script : Zephyr
-![](https://github.com/ashish7zeph/Entice/blob/master/screenshot/img2.png)
-## Client_2 Script : Klaus
-![](https://github.com/ashish7zeph/Entice/blob/master/screenshot/img3.png)
-## Server after few conversation :
-![](https://github.com/ashish7zeph/Entice/blob/master/screenshot/img4.png)
-
-# Socket Programming
-
-Socket programming is a way of connecting two nodes on a network to communicate with each other. One socket(node) listens on a particular port at an IP, while other socket reaches out to the other to form a connection. Server forms the listener socket while client reaches out to the server.
-They are the real backbones behind web browsing. In simpler terms there is a server and a client. 
-
-The code for creating a server socket in sockect programming used in this project is given below:
-
-```python3
-     HOST = gethostbyname(gethostname())     # get host IP
-     PORT = 42000
-     BUFFER_SIZE = 1024   # buffer size of receiver
-     ADDRESS = (HOST, PORT)  # servers socket address
-
-     SERVER = socket(AF_INET, SOCK_STREAM)   # create socket object
-     SERVER.bind(ADDRESS)    # bind socket IP and port no.
-
-     SERVER.listen(2)
-     print('Server IP: ', HOST)
-     print("Waiting for connection...")
-     accept_incoming_connections()
-     accept_incoming_connections()
-```
-
-The code for connecting a client socket with server socket in sockect programming used in this project is given below:
-
-```python3
-    HOST = input('Enter host: ')
-    PORT = int(input('Enter port: '))
-    NAME = input('Enter your name: ')
-    BUFFER_SIZE = 1024
-    ADDRESS = (HOST, PORT)
-
-    CLIENT = socket(AF_INET, SOCK_STREAM)    # client socket object
-    CLIENT.connect(ADDRESS) # to connect to the server socket address
-```
 
 # RSA (Rivest–Shamir–Adleman)
 
